@@ -1,128 +1,85 @@
-"use strict"
+"use strict";
 
-function drawChart(staistics, staistics2, staistics3, texts) {
-// Create the data table.
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Дата');
-    data.addColumn('number', texts.count);
-    data.addRows(staistics.data);
+function drawChart(statistics, texts) {
+//Visits
+    let visits = new google.visualization.DataTable();
+    visits.addColumn('string', 'Дата');
+    visits.addColumn('number', texts.count);
+    visits.addRows(statistics.visits);
 
-    var data2 = new google.visualization.DataTable();
-    data2.addColumn('string', 'Страна');
-    data2.addColumn('number', 'Количество');
-    data2.addRows(staistics2.data);
-
-    var data3 = google.visualization.arrayToDataTable([
-        ['', 'Telegram', 'Viber'],
-        [texts.users_count, statistics3.data.Telegram, statistics3.data.Viber]
-    ]);
-
-    // var data4 = google.visualization.arrayToDataTable([
-    //     ['', 'Без доступа', 'Платный', 'Бесплатный'],
-    //     ['Кол. пользователей', staistics4.no, staistics4.paid, staistics4.free]
-    // ]);
-
-// Set chart options
-    var options = {
+    let optionsVisits = {
         'title':texts.count_users_visits,
         'width':'100%',
         'height':300,
         'colors':['#3c8dbc']
     };
 
-    var options2 = {
+    let chartVisits = new google.visualization.ColumnChart(document.getElementById('chart_visits'));
+    chartVisits.draw(visits, optionsVisits);
+
+
+//Countries
+    let countries = new google.visualization.DataTable();
+    countries.addColumn('string', 'Страна');
+    countries.addColumn('number', 'Количество');
+    countries.addRows(statistics.countries);
+
+    let optionsCountries = {
         'title':texts.count_users_country,
         'width':'100%',
         'height':300
     };
 
-    var options3 = {
+    let chartCountries = new google.visualization.PieChart(document.getElementById('chart_countries'));
+    chartCountries.draw(countries, optionsCountries);
+
+
+//Messengers
+    let messengers = google.visualization.arrayToDataTable([
+        ['', 'Telegram', 'Viber'],
+        [texts.users_count, statistics.messengers.Telegram, statistics.messengers.Viber]
+    ]);
+
+    let optionsMessengers = {
         'title':texts.count_users_messengers,
         'width':'100%',
         'height':300,
         'colors':['#0088cc', '#665CAC']
     };
 
-    // var options4 = {
-    //     'title':'Доступ',
-    //     'width':'100%',
-    //     'height':300,
-    //     'colors':['#3c8dbc', '#fed134', '#1cac5b']
-    // };
-
-// Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
-
-    var chart2 = new google.visualization.PieChart(document.getElementById('chart_div_2'));
-    chart2.draw(data2, options2);
-
-    var chart3 = new google.visualization.BarChart(document.getElementById('chart_div_3'));
-    chart3.draw(data3, options3);
-
-    // var chart4 = new google.visualization.BarChart(document.getElementById('chart_div_4'));
-    // chart4.draw(data4, options4);
+    let chartMessengers = new google.visualization.BarChart(document.getElementById('chart_messengers'));
+    chartMessengers.draw(messengers, optionsMessengers);
 
 
-//             let response = JSON.parse(data);
+//Access
+//     let access = google.visualization.arrayToDataTable([
+//         ['', 'Без доступа', 'Платный', 'Бесплатный'],
+//         ['Кол. пользователей', statistics.access.no, statistics.access.paid, statistics.access.free]
+//     ]);
 //
+//     let optionsAccess = {
+//         'title':'Доступ',
+//         'width':'100%',
+//         'height':300,
+//         'colors':['#3c8dbc', '#fed134', '#1cac5b']
+//     };
 //
-//             // Create the data table.
-//             var data = new google.visualization.DataTable();
-//             data.addColumn('string', 'Страна');
-//             data.addColumn('number', 'Количество');
-//             data.addRows(response.countUsersCountries);
-//
-// // Create the data table.
-//             var data2 = new google.visualization.DataTable();
-//             data2.addColumn('string', 'Дата');
-//             data2.addColumn('number', 'Количество');
-//             data2.addRows(response.countVisits);
-//
-// // Set chart options
-//             var options = {'title':'Количество пользователей по странам (Всего: '+response.countUsersAll+')',
-//                 'width':'100%',
-//                 'height':300};
-//
-// // Set chart options
-//             var options2 = {'title':'Количество посещений, за последние '+response.countDays+' дней',
-//                 'width':'100%',
-//                 'height':300,
-//                 'colors':['#3c8dbc']};
-//
-// // Instantiate and draw our chart, passing in some options.
-//             var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-//             chart.draw(data, options);
-//
-//             var chart2 = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
-//             chart2.draw(data2, options2);
-//
-//
-//         }
-//     });
-
-
-
+//     let chartAccess = new google.visualization.BarChart(document.getElementById('chart_access'));
+//     chartAccess.draw(access, optionsAccess);
 }
 
 function drawChartAnalizeMailingLog(data) {
-    // Create the data table.
-    var data2 = google.visualization.arrayToDataTable([
+    let analizeMailing = google.visualization.arrayToDataTable([
         ['City', texts.mailing_successfully, texts.mailing_not_successful],
         [texts.mailing_count_messages, data.true, data.false]
     ]);
 
-    // Set chart options
-    var options = {'title':texts.mailing_messages_sent+data.all,
+    let optionsAnalizeMailing = {'title':texts.mailing_messages_sent+data.all,
         'width':'100%',
         'height':300,
         'colors':['#3c8dbc', '#FF0000']
     };
 
-    // Instantiate and draw our chart, passing in some options.
-    /*var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
-    */
-    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-    chart.draw(data2, options);
+    let chartAnalizeMailing = new google.visualization.BarChart(document.getElementById('chart_div'));
+    chartAnalizeMailing.draw(analizeMailing, optionsAnalizeMailing);
 }

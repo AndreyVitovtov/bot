@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\models\BotUsers;
+use App\models\Statistic;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
@@ -19,10 +20,14 @@ class Statistics extends Controller {
         $visitsJson = file_get_contents(public_path("json/visits.json"));
         $visitsArray = json_decode($visitsJson, true);
 
+        $statistics = new Statistic();
+
+        //Статистика по визитам
+        $date = [];
         for($i = 9; $i >= 0; $i--) {
             $date[] = date("Y-m-d", mktime(0, 0, 0, date('m'), date('d') - $i, date('Y')));
         }
-
+        $visits = [];
         foreach($date as $d) {
             if(isset($visitsArray[$d])) {
                 $count = count($visitsArray[$d]);
@@ -30,12 +35,10 @@ class Statistics extends Controller {
             else {
                 $count = 0;
             }
-            $data[] = [
+            $visits[] = [
                 $d, $count
             ];
         }
-
-        $view->data = $data;
 
         //Статистика по странам
         $country = DB::select("SELECT country, COUNT(*) AS count FROM users WHERE country <> '' GROUP BY country");
@@ -51,7 +54,6 @@ class Statistics extends Controller {
                 $ISO[$c->country], $c->count
             ];
         }
-        $view->countries = $countries;
 
         //Статистика по мессенджерам
         $messenger = DB::select("SELECT messenger, COUNT(*) as count FROM users GROUP BY messenger");
@@ -59,17 +61,24 @@ class Statistics extends Controller {
         foreach($messenger as $m) {
             $messengers[$m->messenger] = $m->count;
         }
-        $view->messengers = $messengers;
 
         //Статистика по доступу
         $accessNo = DB::select("SELECT COUNT(*) AS count FROM users WHERE access = '0'");
         $accessPaid = DB::select("SELECT COUNT(*) AS count FROM users WHERE access = '1' AND access_free = '0'");
         $accessFree = DB::select("SELECT COUNT(*) AS count FROM users WHERE access = '1' AND access_free = '1'");
-        $view->access = [
+        $access = [
             'no' => $accessNo[0]->count,
             'paid' => $accessPaid[0]->count,
             'free' => $accessFree[0]->count
         ];
+
+
+        $statistics->countries = $countries;
+        $statistics->messengers = $messengers;
+        $statistics->visits = $visits;
+        $statistics->access = $access;
+
+        $view->statistics = $statistics;
 
         return $view;
     }
