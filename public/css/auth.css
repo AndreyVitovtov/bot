@@ -33,16 +33,16 @@ h3 {
 	padding: 0 10px 20px 10px;
 }
 
-.auth>div {
+.auth div {
 	position: relative;
 }
 
-.auth>div i {
+.auth i {
 	position: absolute;
-	top: 26px;
-	right: 10px;
-	font-size: 20px;
-	color: #666;
+	top: 23px;
+	right: 28px;
+	font-size: 18px;
+	color: #c9c9c9;
 }
 
 .auth input {
@@ -51,7 +51,7 @@ h3 {
 	margin-top: 20px;
 	border: solid 1px #d2d6de;
 	padding-left: 10px;
-	padding-right: 35px;
+	padding-right: 28px;
 	box-size: border-box;
 }
 
@@ -77,11 +77,14 @@ h3 {
     height: 25px;
     padding: 0 15px;
     cursor: pointer;
-    position: relative;
+    position: absolute;
+    top: -80px;
+    right: 20px;
+    background-color: #c9c9c9;
 }
 
 .languages:hover {
-    background-color: #d2d6de;
+    background-color: #c9c9c9;
 }
 
 .languages:hover .languages-other {
@@ -99,11 +102,11 @@ h3 {
 
 .languages-other {
     position: absolute;
-    margin-left: -25px;
+    margin-left: -15px;
     z-index: 9999;
     top: 25px;
     padding: 0 15px;
-    background-color: #d2d6de;
+    background-color: #c9c9c9;
     display: none;
 }
 
