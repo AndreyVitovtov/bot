@@ -1,6 +1,7 @@
 <?php
 return [
     'title' => 'Панель управления',
+    'panel_p' => 'П',
     'left_panel_panel' => 'Панель',
     'left_panel_administrator' => 'Администратор',
     'left_panel_menu' => 'Меню',

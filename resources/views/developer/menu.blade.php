@@ -14,7 +14,7 @@
     'name' => 'request',
     'icon' => 'icon-code-2',
     'menu' => 'request',
-    'url' => '/request'])
+    'url' => '/developer/request'])
 @endcomponent
 @component('menu.menu-item', [
     'name' => 'developer_answers',

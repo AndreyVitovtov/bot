@@ -29,9 +29,6 @@ Route::get('seed', "Seed@index")->name('seed');
 
 Route::get('lacale/{language}', "Admin\Locale@index")->name('locale');
 
-Route::get('request', "RequestJSON@index")->name('request');
-
-Route::get('request', "RequestJSON@index")->name('request');
 Route::post('bot/user/{id}', "Bot\Bot@index")->name('bot-webhook');
 
 Route::match(['get', 'post'], 'payment/qiwi/handler', "Payment@qiwiHandler");
@@ -193,6 +190,8 @@ Route::group(['middleware' => 'auth', 'prefix'=>'developer'], function() {
         });
 
         Route::get('/', "Developer\Settings@index");
+
+        Route::get('request', "Developer\RequestJSON@index")->name('request');
 });
 
 Auth::routes();

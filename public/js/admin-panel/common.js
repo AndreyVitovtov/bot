@@ -38,20 +38,20 @@ $(document).ready(function() {
 	});
 
 //ОТКРЫТЬ МЕНЮ
-	$('body').on('click', '.open-menu', function() {
-		if( $('.sidebar').is('.rolled') ) {
-			$('header .left-panel').html('Панель');
-			$('main section.sidebar .menu-hidden.menu-active').show();
-		}
-		else {
-			$('header .left-panel').html('П');
-			$('header .right-panel').css('width: calc( 100% - 50px )');
-			$('main section.sidebar .menu-hidden.menu-active').hide();
-		}
-		$('.sidebar').toggleClass('rolled');
-		$('header .left-panel').toggleClass('rolled');
-		$('header .right-panel').toggleClass('rolled');
-	});
+// 	$('body').on('click', '.open-menu', function() {
+// 		if( $('.sidebar').is('.rolled') ) {
+// 			$('header .left-panel').html('Панель');
+// 			$('main section.sidebar .menu-hidden.menu-active').show();
+// 		}
+// 		else {
+// 			$('header .left-panel').html('П');
+// 			$('header .right-panel').css('width: calc( 100% - 50px )');
+// 			$('main section.sidebar .menu-hidden.menu-active').hide();
+// 		}
+// 		$('.sidebar').toggleClass('rolled');
+// 		$('header .left-panel').toggleClass('rolled');
+// 		$('header .right-panel').toggleClass('rolled');
+// 	});
 
 //ПУНКТЫ МЕНЮ
 	$('body').on('click', '.item-menu', function() {

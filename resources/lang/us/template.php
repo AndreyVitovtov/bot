@@ -1,6 +1,7 @@
 <?php
 return [
     'title' => 'Control Panel',
+    'panel_p' => 'P',
     'left_panel_panel' => 'Panel',
     'left_panel_administrator' => 'Administrator',
     'left_panel_menu' => 'Menu',

@@ -49,9 +49,11 @@
                 </div>
             </div>
             <nav class="open-user-menu">
+{{--                <div class="avatar-open-user-menu"></div>--}}
                 <img src="{{asset('img/avatar5.png')}}" alt="avatar">
                 <span>
-                @lang('template.left_panel_administrator')
+{{--                @lang('template.left_panel_administrator')--}}
+                    {{ Auth::user()->name }}
             </span>
             </nav>
         </div>
@@ -59,11 +61,12 @@
             <img src="{{asset('img/avatar5.png')}}" alt="avatar">
             <div class="title">
                 <div>
-                    @lang('template.top_panel_administrator')
-                </div>
-                <div>
+{{--                    @lang('template.top_panel_administrator')--}}
                     {{ Auth::user()->name }}
                 </div>
+{{--                <div>--}}
+{{--                    {{ Auth::user()->name }}--}}
+{{--                </div>--}}
             </div>
             <div class="dropdown-menu-nav">
                 <div>
@@ -84,9 +87,11 @@
 <main>
     <section class="sidebar no-active">
         <div class="user-panel">
-            <img src="{{asset('img/avatar5.png')}}" alt="avatar">
+            <div class="avatar-user-panel"></div>
+{{--            <img src="{{asset('img/avatar5.png')}}" alt="avatar">--}}
             <span>
                 @lang('template.left_panel_administrator')
+{{--                {{ Auth::user()->name }}--}}
             </span>
         </div>
         <ul class="sidebar-menu">
@@ -125,6 +130,23 @@
         }, 300);
     </script>
 @endif
+
+<script>
+    $('body').on('click', '.open-menu', function() {
+        if( $('.sidebar').is('.rolled') ) {
+            $('header .left-panel').html('@lang('template.left_panel_panel')');
+            $('main section.sidebar .menu-hidden.menu-active').show();
+        }
+        else {
+            $('header .left-panel').html('@lang('template.panel_p')');
+            $('header .right-panel').css('width: calc( 100% - 50px )');
+            $('main section.sidebar .menu-hidden.menu-active').hide();
+        }
+        $('.sidebar').toggleClass('rolled');
+        $('header .left-panel').toggleClass('rolled');
+        $('header .right-panel').toggleClass('rolled');
+    });
+</script>
 </body>
 </html>
 

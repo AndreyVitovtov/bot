@@ -111,31 +111,31 @@
     @endcomponent
 @endaccess
 
-@access('payment')
-    @component('menu.menu-rolled', [
-        'nameItem' => 'payment',
-        'icon' => 'icon-money-2',
-        'name' => 'admin_pay',
-        'items' => [[
-                'name' => 'admin_qiwi',
-                'menu' => 'payqiwi',
-                'url' => '/admin/payment/qiwi'
-            ],[
-               'name' => 'admin_yandex_noney',
-               'menu' => 'payyandex',
-               'url' => '/admin/payment/yandex'
-            ],[
-               'name' => 'admin_webmoney',
-               'menu' => 'paywebmoney',
-               'url' => '/admin/payment/webmoney'
-            ],[
-               'name' => 'admin_paypal',
-               'menu' => 'paypaypal',
-               'url' => '/admin/payment/paypal'
-            ]
-        ]])
-    @endcomponent
-@endaccess
+{{--@access('payment')--}}
+{{--    @component('menu.menu-rolled', [--}}
+{{--        'nameItem' => 'payment',--}}
+{{--        'icon' => 'icon-money-2',--}}
+{{--        'name' => 'admin_pay',--}}
+{{--        'items' => [[--}}
+{{--                'name' => 'admin_qiwi',--}}
+{{--                'menu' => 'payqiwi',--}}
+{{--                'url' => '/admin/payment/qiwi'--}}
+{{--            ],[--}}
+{{--               'name' => 'admin_yandex_noney',--}}
+{{--               'menu' => 'payyandex',--}}
+{{--               'url' => '/admin/payment/yandex'--}}
+{{--            ],[--}}
+{{--               'name' => 'admin_webmoney',--}}
+{{--               'menu' => 'paywebmoney',--}}
+{{--               'url' => '/admin/payment/webmoney'--}}
+{{--            ],[--}}
+{{--               'name' => 'admin_paypal',--}}
+{{--               'menu' => 'paypaypal',--}}
+{{--               'url' => '/admin/payment/paypal'--}}
+{{--            ]--}}
+{{--        ]])--}}
+{{--    @endcomponent--}}
+{{--@endaccess--}}
 
 @access('settings')
     @component('menu.menu-rolled', [

@@ -39,9 +39,6 @@
                 <div>
                     Разработчик
                 </div>
-                <div>
-                    //TODO:: LOGIN
-                </div>
             </div>
             <div class="dropdown-menu-nav">
                 <div>
@@ -57,10 +54,10 @@
 <main>
     <section class="sidebar no-active">
         <div class="user-panel">
-            <img src="{{asset('img/avatar5.png')}}" alt="avatar">
+            <div class="avatar-user-panel"></div>
             <span>
-					Разработчик
-				</span>
+                Разработчик
+            </span>
         </div>
         <ul class="sidebar-menu">
             <li class="header">Меню</li>

@@ -392,6 +392,7 @@ main section.sidebar .user-panel img {
     height: auto;
     border-radius: 50%;
     vertical-align: middle;
+    border-bottom: solid 1px #fff;
 }
 
 main section.sidebar .user-panel span {
@@ -512,7 +513,23 @@ main section.sidebar.rolled .user-panel img {
     height: auto;
     border-radius: 50%;
     vertical-align: middle;
+    border-bottom: solid 1px #fff;
 }
+
+.avatar-user-panel {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: inline-block;
+    background-image: url(../img/avatar5.png);
+    background-size: cover;
+    background-position: center;
+    vertical-align: middle;
+}
+
+/*.user-panel span {*/
+/*    vertical-align: middle;*/
+/*}*/
 
 main section.sidebar:not(.rolled) .menu-hidden .title {
     display: none;
