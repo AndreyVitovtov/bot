@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{asset('css/fontello.css')}}">
     <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}" type="image/x-icon">
     <script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
+    <script src="{{asset('js/admin-panel/jquery.cookie.js')}}"></script>
     <script src="{{asset('js/admin-panel/common.js')}}"></script>
     <script src="{{asset('js/admin-panel/drawChart.js')}}"></script>
     <script src="{{asset('https://www.gstatic.com/charts/loader.js')}}"></script>
@@ -19,10 +20,14 @@
 <div class="pop-up-window">
 </div>
 <header>
-    <section class="left-panel">
-        @lang('template.left_panel_panel')
+    <section class="left-panel @if(isset($_COOKIE['rolled']) && $_COOKIE['rolled'] === 'true') rolled @endif">
+        @if(isset($_COOKIE['rolled']) && $_COOKIE['rolled'] === 'true')
+            @lang('template.panel_p')
+        @else
+            @lang('template.left_panel_panel')
+        @endif
     </section>
-    <section class="right-panel">
+    <section class="right-panel @if(isset($_COOKIE['rolled']) && $_COOKIE['rolled'] === 'true') rolled @endif">
         <nav class="open-menu mob-hidden">
             <i class="icon-menu"></i>
         </nav>
@@ -85,7 +90,7 @@
     </section>
 </header>
 <main>
-    <section class="sidebar no-active">
+    <section class="sidebar no-active @if(isset($_COOKIE['rolled']) && $_COOKIE['rolled'] === 'true') rolled @endif">
         <div class="user-panel">
             <div class="avatar-user-panel"></div>
 {{--            <img src="{{asset('img/avatar5.png')}}" alt="avatar">--}}
@@ -107,7 +112,7 @@
             </div>
         </div>
         <footer>
-            Copyright © 2020 <a href="https://vitovtov.top" target="_blank">vitovtov.top</a>
+            Copyright © 2021 <a href="https://vitovtov.top" target="_blank">vitovtov.top</a>
         </footer>
     </section>
 </main>
@@ -133,19 +138,32 @@
 
 <script>
     $('body').on('click', '.open-menu', function() {
-        if( $('.sidebar').is('.rolled') ) {
+        rolled();
+    });
+
+    if($.cookie('rolled') === 'true') {
+        $('header .right-panel').css('width: calc( 100% - 50px )');
+        $('main section.sidebar .menu-hidden.menu-active').hide();
+    }
+
+    function rolled() {
+        if($('.sidebar').is('.rolled')) {
             $('header .left-panel').html('@lang('template.left_panel_panel')');
             $('main section.sidebar .menu-hidden.menu-active').show();
+
+            $.cookie('rolled', 'false', {path: '/'});
         }
         else {
             $('header .left-panel').html('@lang('template.panel_p')');
             $('header .right-panel').css('width: calc( 100% - 50px )');
             $('main section.sidebar .menu-hidden.menu-active').hide();
+
+            $.cookie('rolled', 'true', {path: '/'});
         }
         $('.sidebar').toggleClass('rolled');
         $('header .left-panel').toggleClass('rolled');
         $('header .right-panel').toggleClass('rolled');
-    });
+    }
 </script>
 </body>
 </html>
