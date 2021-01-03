@@ -222,5 +222,8 @@ return [
     'save' => 'Save',
     'delete' => 'Delete',
     'send' => 'Send',
+    'image' => 'Image',
+    'or' => 'or',
+    'url_image' => 'url image',
 
 ];

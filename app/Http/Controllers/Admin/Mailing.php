@@ -44,84 +44,67 @@ class Mailing extends Controller{
 
     public function send(Request $request) {
         $params = $request->input();
-        if(empty($params['text'])) {
-            return redirect()->to("/admin/mailing/users");
+
+        $task = [];
+        if($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time().$file->getClientOriginalName();
+            $file->move(public_path('\img\mailing'), $fileName);
+            $task['type'] = "img";
+            $task['img'] = url('/')."/img/mailing/".$fileName;
+            $task['text'] = empty($params['text']) ? null : $params['text'];
         }
         else {
-            $task = [];
-            if($request->hasFile('image')) {
-                $file = $request->file('image');
-                $fileName = time().$file->getClientOriginalName();
-                $file->move(public_path() . '/img', $fileName);
+            if(!empty($params['url_image'])) {
                 $task['type'] = "img";
-                $task['img'] = url('/')."/img/".$fileName;
+                $task['img'] = $params['url_image'];
+                $task['text'] = empty($params['text']) ? null : $params['text'];
             }
             else {
-                if(!empty($params['url_image'])) {
-                    $task['type'] = "img";
-                    $task['img'] = $params['url_image'];
+                if(empty($params['text'])) {
+                    return redirect()->to("/admin/mailing");
                 }
-                else {
-                    $task['type'] = "text";
-                    $task['text'] = $params['text'];
-                }
+                $task['type'] = "text";
+                $task['text'] = $params['text'];
             }
-
-            $count = 0;
-
-//            if($params['chat_holders'] == "all") {
-//                $db = DB::select("
-//                    SELECT COUNT(*) AS count
-//                        FROM users
-//                        WHERE messenger LIKE '".$params['messenger']."'
-//                            AND country LIKE '".$params['country']."'"
-//                );
-//            }
-//            elseif($params['chat_holders'] == "yes") {
-//                $db = DB::select("
-//                    SELECT COUNT(DISTINCT(u.id)) AS count
-//                        FROM users u
-//                        JOIN chats c ON c.users_id = u.id
-//                        WHERE u.messenger LIKE '".$params['messenger']."'
-//                            AND u.country LIKE '".$params['country']."'"
-//                );
-//            }
-//            elseif($params['chat_holders'] == "no") {
-//                $db = DB::select("
-//                    SELECT COUNT(DISTINCT(u.id)) AS count
-//                    FROM users u
-//                    WHERE u.id NOT IN (
-//                        SELECT id FROM chats
-//                    ) AND u.messenger LIKE '".$params['messenger']."'
-//                      AND u.country LIKE '".$params['country']."'"
-//                );
-//
-//            }
-
-//            $count = $db[0]->count;
-
-            if($count == 0) {
-                return redirect()->to("/admin/mailing/users");
-            }
-
-            $task['count'] = $count;
-            $task['start'] = 0;
-            $task['create'] = date("Y-m-d H:i:s");
-            $task['performed'] = "false";
-            $task['country'] = $params['country'];
-            $task['messenger'] = $params['messenger'];
-            $task['chat_holders'] = $params['chat_holders'];
-
-            file_put_contents(public_path()."/json/mailing_task.json", json_encode($task));
-            file_put_contents(public_path()."/txt/log.txt", "");
-
-            return redirect()->to("/admin/mailing/users");
         }
+
+        $db = DB::table('users')
+            ->where('messenger', 'LIKE', $params['messenger']);
+
+        if($params['country'] !== 'all') {
+            $db = $db->where('country', $params['country']);
+        }
+
+        $count = $db->count();
+
+        if($count == 0) {
+            return redirect()->to("/admin/mailing");
+        }
+
+        $task['count'] = $count;
+        $task['start'] = 0;
+        $task['create'] = date("Y-m-d H:i:s");
+        $task['performed'] = "false";
+        $task['country'] = $params['country'];
+        $task['messenger'] = $params['messenger'];
+
+        file_put_contents(public_path('/json/mailing_task.json'), json_encode($task));
+        file_put_contents(public_path('/txt/log.txt'), "");
+
+        return redirect()->to("/admin/mailing");
     }
 
     public function cancel() {
-        unlink(public_path()."/json/mailing_task.json");
-        return redirect()->to("/admin/mailing/users");
+        $task = file_get_contents(public_path('/json/mailing_task.json'));
+        $task = json_decode($task);
+        if(isset($task->img)) {
+            $imgArr = explode("/", $task->img);
+            $imgName = end($imgArr);
+            unlink(public_path('/img/mailing/'.$imgName));
+        }
+        unlink(public_path('/json/mailing_task.json'));
+        return redirect()->to("/admin/mailing");
     }
 
     public function analize() {

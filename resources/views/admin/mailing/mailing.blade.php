@@ -19,7 +19,7 @@
             </div>
             <div>
                 <select name="country" class="country_mailing">
-                    <option value="%">@lang('pages.mailing_all')</option>
+                    <option value="all">@lang('pages.mailing_all')</option>
                     @foreach($countries as $key => $country)
                         <option value="{{ $key }}">{{ $country }}</option>
                     @endforeach
@@ -30,6 +30,16 @@
             </div>
             <div>
                 <textarea name="text" {{ $disable }}></textarea>
+            </div>
+            <div>
+                <label>@lang('pages.image'):</label>
+            </div>
+            <div>
+                <input type="file" name="image" accept="image/jpeg,image/png,image/gif">
+            </div>
+            <div>@lang('pages.or')</div>
+            <div>
+                <input type="url" name="url_image" placeholder="@lang('pages.url_image')">
             </div>
             <div>
                 <label>@lang('pages.mailing_messenger')</label>

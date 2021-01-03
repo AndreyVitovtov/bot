@@ -144,6 +144,16 @@ class Telegram {
             'parse_mode' => "Markdown"
         ];
 
+        if(!empty($params['buttons']))  {
+            $data['reply_markup'] = [
+                'keyboard' => $params['buttons'],
+                'resize_keyboard' => true,
+                'one_time_keyboard' => false,
+                'parse_mode' => 'HTML',
+                'selective' => true
+            ];
+        }
+
         if(!empty($params['inlineButtons'])) {
             $data['reply_markup'] = json_encode([
                 'inline_keyboard' => $params['inlineButtons'],
