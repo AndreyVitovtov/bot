@@ -1892,3 +1892,35 @@
  2160
  Property [type] does not exist on this collection instance.
 
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 15
+ Undefined variable: ertrtuhy
+
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 15
+ Undefined variable: ertrtuhy
+
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 15
+ Undefined variable: ertrtuhy
+
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 15
+ Undefined variable: dfsg
+
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 15
+ Undefined variable: dgf
+
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 15
+ Undefined variable: dgf
+
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 15
+ Undefined index: HTTP_X_VIBER_CONTENT_SIGNATURE
+
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 15
+ Undefined index: HTTP_X_VIBER_CONTENT_SIGNATURE
+

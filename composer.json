@@ -18,7 +18,8 @@
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^4.1",
         "symfony/debug": "^4.4",
-        "workerman/workerman": "^4.0"
+        "workerman/workerman": "^4.0",
+      "ext-apache": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

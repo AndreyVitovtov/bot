@@ -39,7 +39,7 @@ Route::match(['get', 'post'], 'payment/paypal/handler', "Payment@paypalHandler")
 Route::match(['get', 'post'], 'payment/method/{messenger}/{id}/{amount?}/{purpose?}', "Pay@method");
 Route::match(['post'], 'payment/invoice', "Pay@invoice")->name('payment-invoice');
 
-Route::match(['get', 'post'], 'bot/index', "Bot\RequestHandler@index");
+Route::match(['get', 'post'], 'bot/index', "Bot\RequestHandler@index")->name('bot-request-handler');
 Route::get('bot/send/mailing', "Send@mailing"); // Рассылка (Каждые 2 минуты)
 
 Route::match(['get', 'post'], 'pay/handler', "Payment@handler");
@@ -191,7 +191,12 @@ Route::group(['middleware' => 'auth', 'prefix'=>'developer'], function() {
 
         Route::get('/', "Developer\Settings@index");
 
-        Route::get('request', "Developer\RequestJSON@index")->name('request');
+    Route::prefix('/request')->group(function () {
+        Route::get('/', "Developer\RequestJSON@index")->name('request');
+        Route::post('/send', "Developer\RequestJSON@send")->name('send-request');
+        Route::get('/send', "Developer\RequestJSON@send")->name('send-request-get');
+        Route::post('/get/response', "Developer\RequestJSON@getResponse")->name('get-response');
+    });
 });
 
 Auth::routes();

@@ -17,6 +17,12 @@
     'url' => '/developer/request'])
 @endcomponent
 @component('menu.menu-item', [
+    'name' => 'send_request',
+    'icon' => 'icon-rocket',
+    'menu' => 'send_request',
+    'url' => '/developer/request/send'])
+@endcomponent
+@component('menu.menu-item', [
     'name' => 'developer_answers',
     'icon' => 'icon-help-1',
     'menu' => 'answers',

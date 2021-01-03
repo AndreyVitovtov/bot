@@ -22,11 +22,18 @@
 <br>
 <textarea id="json"></textarea>
 <br>
-<button onclick="Copy()" class="button">Copy text</button>
+<br>
 
 @php
     $jsonFull = json_encode(json_decode($json));
 @endphp
+
+<form action="{{ route('send-request') }}" method="POST" id="send_request">
+    @csrf
+    <input type="hidden" name="data" value="{{ $json }}">
+</form>
+<button onclick="Copy()" class="button">Copy text</button>
+<button form="send_request" class="button">Send request</button>
 
 <script>
     let jsonFull = '{!! $jsonFull !!}';

@@ -61,4 +61,5 @@ return [
     'developer_permissions' => 'Permissions',
 
     'request' => 'Request',
+    'send_request' => 'Send request',
 ];

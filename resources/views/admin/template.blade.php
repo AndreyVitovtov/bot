@@ -126,7 +126,7 @@
 @if(isset($notification))
     <script>
         setTimeout(function() {
-            popUpWindow({{ $notification }})
+            popUpWindow('{{ $notification }}')
         }, 300);
     </script>
 @endif

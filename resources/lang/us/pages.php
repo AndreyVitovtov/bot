@@ -221,4 +221,6 @@ return [
     'actions' => 'Actions',
     'save' => 'Save',
     'delete' => 'Delete',
+    'send' => 'Send',
+
 ];

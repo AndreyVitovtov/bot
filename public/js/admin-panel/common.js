@@ -175,7 +175,7 @@ $(document).ready(function() {
 function popUpWindow(text) {
     $('.pop-up-window').html(text);
     $('.pop-up-window').css('top', '0');
-    setTimeout(function(){
+    setTimeout(function() {
         $('.pop-up-window').css('top', '-50px');
-    }, 1200);
+    }, 2000);
 }

@@ -23,7 +23,7 @@ trait RequestHandlerTrait {
         $this->botService = $botService;
 
         $headers = getallheaders();
-        if(isset($_SERVER['HTTP_X_VIBER_CONTENT_SIGNATURE'])) {
+        if(isset($_SERVER['HTTP_X_VIBER_CONTENT_SIGNATURE']) || isset($headers['VIBER'])) {
             $this->messenger = "Viber";
         }
         elseif(isset($headers['Facebook-Api-Version'])) {
@@ -83,7 +83,7 @@ trait RequestHandlerTrait {
             $this->callMethodIfExists();
         }
 
-        return response ('OK', 200)->header('Content-Type', 'text/plain');
+        return response('OK', 200)->header('Content-Type', 'text/plain');
 
 
 //TODO: ДОБАВИТЬ WEBHOOK FACEBOOK MESSENGER

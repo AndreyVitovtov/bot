@@ -28,7 +28,6 @@ class Settings extends Controller {
     public function main() {
         $view = view('admin.settings.settings-main');
         $view->menuItem = "settingsmain";
-
         $view->fields = SettingsMain::all();
         return $view;
     }

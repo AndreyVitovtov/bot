@@ -60,5 +60,6 @@ return [
     'developer_settings_buttons' => 'Кнопки',
     'developer_permissions' => 'Привилегии',
 
-    'request' => 'Request',
+    'request' => 'Запрос',
+    'send_request' => 'Отправить запрос',
 ];
