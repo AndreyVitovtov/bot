@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
     <link rel="stylesheet" href="{{asset('css/fontello.css')}}">
     <link rel="stylesheet" href="{{asset('css/developer.css')}}">
+    <link rel="stylesheet" href="{{asset('css/jquery.json-browse.css')}}">
     <link rel="shortcut icon" href="{{asset('img/favicon.ico')}}" type="image/x-icon">
     <script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
     <script src="{{asset('js/admin-panel/common.js')}}"></script>
     <script src="{{asset('js/admin-panel/drawChart.js')}}"></script>
     <script src="{{asset('https://www.gstatic.com/charts/loader.js')}}"></script>
+    <script src="{{asset('js/admin-panel/jquery.json-browse.js')}}"></script>
 </head>
 <body>
 <header>
