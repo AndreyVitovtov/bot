@@ -508,9 +508,9 @@ main section.sidebar.rolled .item-menu i {
     font-size: 16px;
 }
 
-main section.sidebar.rolled .user-panel img {
-    max-width: 30px;
-    height: auto;
+main section.sidebar.rolled .user-panel .avatar-user-panel {
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     vertical-align: middle;
     border-bottom: solid 1px #fff;
