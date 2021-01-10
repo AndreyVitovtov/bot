@@ -16,6 +16,19 @@
     <script src="{{asset('js/admin-panel/drawChart.js')}}"></script>
     <script src="{{asset('https://www.gstatic.com/charts/loader.js')}}"></script>
     <script src="{{asset('js/admin-panel/jquery.json-browse.js')}}"></script>
+
+    @if(isset($menuItem))
+        <script>
+            window.onload = function() {
+                $('.item-menu').removeClass('active');
+                $('main section.sidebar .menu-hidden div').removeClass('active');
+                $('.{{ $menuItem }}').addClass('active');
+                $('.{{ $menuItem }}').parents('span.rolled-hidden').children('li.item-menu').addClass('active');
+                $('.{{ $menuItem }}').parents('li').addClass('menu-active');
+                $('.{{ $menuItem }}').parents('li').toggle();
+            };
+        </script>
+    @endif
 </head>
 <body>
 <header>
@@ -78,16 +91,5 @@
         </footer>
     </section>
 </main>
-
-@if(isset($menuItem))
-    <script>
-        $('.item-menu').removeClass('active');
-        $('main section.sidebar .menu-hidden div').removeClass('active');
-        $('.{{ $menuItem }}').addClass('active');
-        $('.{{ $menuItem }}').parents('span.rolled-hidden').children('li.item-menu').addClass('active');
-        $('.{{ $menuItem }}').parents('li').addClass('menu-active');
-        $('.{{ $menuItem }}').parents('li').toggle();
-    </script>
-@endif
 </body>
 </html>

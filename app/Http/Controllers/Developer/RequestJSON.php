@@ -16,12 +16,14 @@ class RequestJSON extends Controller {
 
     public function send(Request $request) {
         $request = $request->input();
+        $response = isset($request['response']) ? $request['response'] : null;
+        file_put_contents(public_path('html/response.html'), $response);
         return view('developer.request.send', [
             'method' => isset($request['method']) ? $request['method'] : null,
             'messenger' => isset($request['messenger']) ? $request['messenger'] : null,
             'url' => isset($request['url']) ? $request['url'] : null,
             'data' => isset($request['data']) ? $request['data'] : null,
-            'response' => isset($request['response']) ? $request['response'] : null,
+            'response' => $response,
             'menuItem' => 'send_request'
         ]);
     }

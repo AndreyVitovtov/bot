@@ -1924,3 +1924,11 @@ D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
  15
  Undefined index: HTTP_X_VIBER_CONTENT_SIGNATURE
 
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 17
+ end() expects parameter 1 to be array, string given
+
+D:\OSPanel\domains\bot\app\Http\Controllers\Bot\RequestHandler.php
+ 17
+ Undefined variable: dsrt
+

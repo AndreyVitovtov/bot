@@ -16,6 +16,10 @@
             resize: none;
             border: solid 1px #ddd;
         }
+
+        iframe {
+            height: 390px;
+        }
     </style>
 
     <form action="{{ route('get-response') }}" method="POST">
@@ -62,16 +66,14 @@
         <br>
         <label>Response</label>
         <br>
-        <code id="json-renderer" class="json-body"></code>
-        @if($response[0] != "{")
-            <script>
-                $('#json-renderer').html('{!! $response !!}');
-            </script>
-        @else
+        @if(substr($response, 0, 1) == '{')
+            <div id="json-renderer" class="json-body"></div>
             <script>
                 let json = '{!! $response !!}';
                 $('#json-renderer').jsonBrowse(JSON.parse(json), {withQuotes: true});
             </script>
+        @else
+            <iframe src="{{ url('html/response.html') }}" width="100%"></iframe>
         @endif
     @endif
 
