@@ -84,6 +84,25 @@ class Settings extends Controller {
 
     public function mainSave(Request $request) {
         $param = $request->input()['input'];
+        $paramsWebhook = [];
+        $settingsMain = SettingsMain::where('prefix', 'viber_token')
+            ->orWhere('prefix', 'telegram_token')
+            ->get(['prefix', 'value'])
+            ->toArray();
+
+        foreach($settingsMain as $sm) {
+            if($sm['prefix'] == 'viber_token') {
+                if($param[1] != $sm['value']) {
+                    $paramsWebhook['viber'] = true;
+                }
+            }
+            elseif($sm['prefix'] == 'telegram_token') {
+                if($param[3] != $sm['value']) {
+                    $paramsWebhook['telegram'] = true;
+                }
+            }
+        }
+
         foreach($param as $id => $value) {
             SettingsMain::where('id', $id)->update(['value' => $value]);
         }
@@ -96,7 +115,7 @@ class Settings extends Controller {
         file_put_contents(public_path("json/main.json"), json_encode($res));
 
         $webhook = new Webhook();
-        $webhook->set();
+        $webhook->set($paramsWebhook);
 
         return redirect()->to("/admin/settings/main");
     }

@@ -24,6 +24,8 @@
 
     <form action="{{ route('get-response') }}" method="POST">
         @csrf
+        <label>Headers</label>
+        <br>
         <div>
             <input type="checkbox" name="messenger" value="viber" id="viber"
                 @if((isset($messenger) && $messenger == 'viber'))
@@ -33,16 +35,36 @@
             <label for="viber" class="cursor-pointer">Viber</label>
         </div>
         <br>
+        <label>Options</label>
+        <br>
         <div>
-            <input type="radio" name="migrate_seed" value="none" class="migrate-seed" id="none" checked>
+            <input type="radio" name="options" value="none" class="options" id="none" checked>
             <label for="none" class="cursor-pointer">None</label>
 
-            <input type="radio" name="migrate_seed" value="migrate" class="migrate-seed" id="migrate">
+            <input type="radio" name="options" value="migrate" class="options" id="migrate">
             <label for="migrate" class="cursor-pointer">Migrate</label>
 
-            <input type="radio" name="migrate_seed" value="seed" class="migrate-seed" id="seed">
+            <input type="radio" name="options" value="seed" class="options" id="seed">
             <label for="seed" class="cursor-pointer">Seed</label>
+
+            <input type="radio" name="options" value="webhook" class="options" id="webhook">
+            <label for="webhook" class="cursor-pointer">Webhook</label>
         </div>
+        <div class="hidden" id="options_webhook">
+            <br>
+            <label>Webhook</label>
+            <br>
+            <input type="radio" name="type" value="telegram" id="type_telegram" checked>
+            <label for="type_telegram" class="cursor-pointer">Telegram</label>
+            <input type="radio" name="type" value="viber" id="type_viber">
+            <label for="type_viber" class="cursor-pointer">Viber</label>
+            <br>
+            <br>
+            <label for="token">Token</label>
+            <input type="text" name="token" id="token">
+        </div>
+        <br>
+        <label>Method</label>
         <br>
         <div>
             <input type="radio" name="method" value="post" id="post"
@@ -90,20 +112,37 @@
     @endif
 
     <script>
-        $('body').on('change', '.migrate-seed', function() {
+        $('body').on('change', '.options', function() {
             let url = $('#old_url').val();
             $('#url').val(url);
             let radio = $(this).val();
-            if(radio === 'none') {
-                $('#post').prop('checked', true);
-                $('textarea').prop('disabled', false);
-                return;
+            if(radio === 'webhook') {
+                $('#url').prop('disabled', true);
+                $('#get').prop('disabled', true);
+                $('#post').prop('disabled', true);
+                $('textarea').prop('disabled', true);
+                $('#options_webhook').toggle();
+                $('#token').focus();
             }
-            let old_url = $('#old_url').val();
-            $('#old_url').val(old_url);
-            $('#get').prop('checked', true);
-            $('textarea').prop('disabled', true);
-            $('#url').val('{{ url('') }}/'+radio);
+            else {
+                if($('div #options_webhook').is((':visible'))) {
+                    $('#options_webhook').toggle();
+                    $('#url').prop('disabled', false);
+                    $('#get').prop('disabled', false);
+                    $('#post').prop('disabled', false);
+                    $('textarea').prop('disabled', false);
+                }
+                if(radio === 'none') {
+                    $('#post').prop('checked', true);
+                    $('textarea').prop('disabled', false);
+                    return;
+                }
+                let old_url = $('#old_url').val();
+                $('#old_url').val(old_url);
+                $('#get').prop('checked', true);
+                $('textarea').prop('disabled', true);
+                $('#url').val('{{ url('') }}/'+radio);
+            }
         });
 
         let method = $('input[name=method]:checked').val();
