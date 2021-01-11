@@ -54,9 +54,9 @@
             <br>
             <label>Webhook</label>
             <br>
-            <input type="radio" name="type" value="telegram" id="type_telegram" checked>
+            <input type="radio" name="type" value="telegram" class="type" id="type_telegram" checked>
             <label for="type_telegram" class="cursor-pointer">Telegram</label>
-            <input type="radio" name="type" value="viber" id="type_viber">
+            <input type="radio" name="type" value="viber" class="type" id="type_viber">
             <label for="type_viber" class="cursor-pointer">Viber</label>
             <br>
             <br>
@@ -123,6 +123,7 @@
                 $('textarea').prop('disabled', true);
                 $('#options_webhook').toggle();
                 $('#token').focus();
+                $('#token').val('{{ $telegramToken }}');
             }
             else {
                 if($('div #options_webhook').is((':visible'))) {
@@ -143,6 +144,17 @@
                 $('textarea').prop('disabled', true);
                 $('#url').val('{{ url('') }}/'+radio);
             }
+        });
+
+        $('body').on('change', '.type', function() {
+            let type = $(this).val();
+            if(type == 'telegram') {
+                $('#token').val('{{ $telegramToken }}');
+            }
+            else if(type == 'viber') {
+                $('#token').val('{{ $viberToken }}');
+            }
+            $('#token').focus();
         });
 
         let method = $('input[name=method]:checked').val();
