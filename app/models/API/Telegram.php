@@ -44,7 +44,7 @@ class Telegram {
             return [
                 'first_name' => $first_name,
                 'last_name' => $last_name,
-                'username' => $this->request->message->chat->username
+                'username' => isset($this->request->message->chat->username) ?? 'no name'
             ];
         }
         elseif(isset($this->request->callback_query->message->chat->username)) {
