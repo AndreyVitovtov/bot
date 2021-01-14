@@ -6,66 +6,38 @@ class Telegram {
     protected $token;
     private $request = null;
 
-    public function __construct($token) {
+    public function __construct(string $token = null) {
+
         $this->request = json_decode(file_get_contents('php://input'));
-        $this->token = $token;
-    }
-    public function getId(): ?string {
-        if(isset($this->request->message->chat->id)) {
-            return $this->request->message->chat->id;
-        }
-        elseif(isset($this->request->callback_query->message->chat->id)) {
-            return $this->request->callback_query->message->chat->id;
-        }
-        elseif(isset($this->request->channel_post->chat->id)) {
-            return $this->request->channel_post->chat->id;
+        if($token === null) {
+            $this->token = defined(TELEGRAM_TOKEN) ? TELEGRAM_TOKEN : null;
         }
         else {
-            return null;
+            $this->token = $token;
         }
     }
+    public function getId(): ? string {
+        return (
+            $this->request->message->chat->id ??
+            $this->request->callback_query->message->chat->id ??
+            $this->request->channel_post->chat->id ??
+            null
+        );
+    }
 
-    public function getName(): ?array {
+    public function getName(): ? array {
         if(isset($this->request->message->from->username)) {
-            if(isset($this->request->message->chat->last_name)) {
-                $last_name = $this->request->message->chat->last_name;
-            }
-            else {
-                $last_name = "no name";
-            }
-
-            if(isset($this->request->message->chat->first_name)) {
-                $first_name = $this->request->message->chat->first_name;
-            }
-            else {
-                $first_name = "no name";
-            }
-
             return [
-                'first_name' => $first_name,
-                'last_name' => $last_name,
+                'first_name' => $this->request->message->chat->first_name ?? 'no name',
+                'last_name' => $this->request->message->chat->last_name ?? 'no name',
                 'username' => isset($this->request->message->chat->username) ?? 'no name'
             ];
         }
         elseif(isset($this->request->callback_query->message->chat->username)) {
-            if(isset($this->request->callback_query->message->chat->last_name)) {
-                $last_name = $this->request->callback_query->message->chat->last_name;
-            }
-            else {
-                $last_name = "no name";
-            }
-
-            if(isset($this->request->callback_query->message->chat->first_name)) {
-                $first_name = $this->request->callback_query->message->chat->first_name;
-            }
-            else {
-                $first_name = "no name";
-            }
-
             return [
-                'first_name' => $first_name,
-                'last_name' => $last_name,
-                'username' => $this->request->callback_query->message->chat->username
+                'first_name' => $this->request->callback_query->message->chat->first_name ?? 'no name',
+                'last_name' => $this->request->callback_query->message->chat->last_name ?? 'no name',
+                'username' => $this->request->callback_query->message->chat->username ?? 'no name'
             ];
         }
         else {
@@ -73,20 +45,16 @@ class Telegram {
         }
     }
 
-    public function getRequest(): ?string {
+    public function getRequest(): string {
         return json_encode($this->request);
     }
 
-    public function getMessage(): ?string {
-        if(isset($this->request->message->text)) {
-            return $this->request->message->text;
-        }
-        elseif(isset($this->request->callback_query->data)) {
-            return $this->request->callback_query->data;
-        }
-        else {
-            return null;
-        }
+    public function getMessage(): ? string {
+        return (
+            $this->request->message->text ??
+            $this->request->callback_query->data ??
+            null
+        );
     }
 
     public function sendMessage(?string $chat, string $content, array $params = []): string {
@@ -161,13 +129,13 @@ class Telegram {
             ]);
         }
 
-        $bot_url    = "https://api.telegram.org/bot".$this->token."/sendPhoto";
+        $bot_url = "https://api.telegram.org/bot".$this->token."/sendPhoto";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Content-Type: multipart/form-data"
         ]);
         curl_setopt($ch, CURLOPT_URL, $bot_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $response = curl_exec($ch);
         curl_close($ch);
@@ -189,9 +157,9 @@ class Telegram {
         ]);
     }
 
-    public function setWebhook(string $uri): string {
+    public function setWebhook(string $url): string {
         return $this->makeRequest('setWebhook', [
-            'url' => $uri
+            'url' => $url
         ]);
     }
 
@@ -199,7 +167,7 @@ class Telegram {
         return $this->makeRequest('getWebhookInfo', []);
     }
 
-    public function sendChatAction($chat, $action = "typing") {
+    public function sendChatAction($chat, $action = 'typing') {
 // typing for text messages,
 // upload_photo for photos,
 // record_video or upload_video for videos,
@@ -214,10 +182,12 @@ class Telegram {
     }
 
     public function getFilePath($fileId) {
-        $filePath = file_get_contents("https://api.telegram.org/bot".$this->token."/getFile?file_id=".$fileId);
+        $filePath = file_get_contents(
+            "https://api.telegram.org/bot" . $this->token . "/getFile?file_id=" . $fileId
+        );
         $filePath = json_decode($filePath, true);
         $filePath = $filePath['result']['file_path'];
-        return "https://api.telegram.org/file/bot$this->token/$filePath";
+        return "https://api.telegram.org/file/bot{$this->token}/$filePath";
     }
 
     private function makeRequest($method, $data = []) {
@@ -330,7 +300,7 @@ class Telegram {
         return $names;
     }
 
-    private function getTypeReq($arrProperties = null):? string {
+    private function getTypeReq($arrProperties = null): ? string {
         $rules = [
             'callback_query' => 'callback_query',
             'channel_post' => 'channel_post',
@@ -347,32 +317,26 @@ class Telegram {
     }
 
     public function forwardMessage($chat, $from_chat_id, $message_id) {
-        $data = array(
+        return $this->makeRequest('forwardMessage', [
             'chat_id' => $chat,
             'from_chat_id' => $from_chat_id,
             'message_id' => $message_id
-        );
-
-        return $this->makeRequest('forwardMessage', $data);
+        ]);
     }
 
     public function sendLocation($chat, $lat, $lng) {
-        $data = array(
+        return $this->makeRequest('sendLocation', [
             'chat_id' => $chat,
             'latitude' => $lat,
             'longitude' => $lng
-        );
-
-        return $this->makeRequest('sendLocation', $data);
+        ]);
     }
 
     public function sendSticker($chat, $idSticker) {
-        $data = array(
+        return $this->makeRequest('sendSticker', [
             'chat_id' => $chat,
             'sticker' => $idSticker
-        );
-
-        return $this->makeRequest('sendSticker', $data);
+        ]);
     }
 
     public function sendContact($chat, $phone, $name, $params = []) {
@@ -382,14 +346,14 @@ class Telegram {
             'first_name' => $name
         ];
 
-        if(!empty($params['inlineButtons'])) {
+        if(isset($params['inlineButtons'])) {
             $data['reply_markup'] = json_encode([
                 'inline_keyboard' => $params['inlineButtons'],
                 'resize_keyboard' => false
             ]);
         }
 
-        if(!empty($params['buttons']))  {
+        if(isset($params['buttons']))  {
             $data['reply_markup'] = [
                 'keyboard' => $params['buttons'],
                 'resize_keyboard' => true,
@@ -418,7 +382,7 @@ class Telegram {
     }
 
     public function payment($data) {
-        $data = [
+        return $this->makeRequest('sendInvoice', [
             "chat_id" => $data['chat'],
             "title" => $data['title'],
             "description" => $data['description'],
@@ -437,18 +401,14 @@ class Telegram {
             //"need_email" => "",
             "need_phone_number" => true
             //"reply_markup" => $reply_markup
-        ];
-
-        return $this->makeRequest('sendInvoice', $data);
+        ]);
     }
 
     public function answerPreCheckoutQuery($pre_checkout_query_id, $ok = true, $error_message = null) {
-        $data = [
+        return $this->makeRequest('answerPreCheckoutQuery', [
             "pre_checkout_query_id" => $pre_checkout_query_id,
             "ok" => $ok,
             "error_message" => $error_message
-        ];
-
-        return $this->makeRequest('answerPreCheckoutQuery', $data);
+        ]);
     }
 }

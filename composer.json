@@ -19,7 +19,8 @@
         "pusher/pusher-php-server": "^4.1",
         "symfony/debug": "^4.4",
         "workerman/workerman": "^4.0",
-      "ext-apache": "*"
+      "ext-apache": "*",
+      "ext-fileinfo": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
