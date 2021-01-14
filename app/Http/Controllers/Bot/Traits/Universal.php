@@ -154,6 +154,11 @@ trait Universal {
         }
     }
 
+    public function getTypeChat(): ? string {
+        $request = json_decode($this->getRequest());
+        return $request->message->chat->type ?? $request->channel_post->chat->type ?? null;
+    }
+
     private function getTypeReq($arrProperties = null):? string {
         if($this->messenger == "Viber") {
             $req = json_decode($this->getRequest());
